@@ -1,9 +1,14 @@
+import { Provider } from 'react-redux';
+import store from './redux/store';
+
 function App() {
 
   return (
-    <h1>
-      DevRev Kanban
-    </h1>
+    <Provider store={store}>
+      <h1>
+        DevRev Kanban
+      </h1>
+    </Provider>
   )
 }
 
