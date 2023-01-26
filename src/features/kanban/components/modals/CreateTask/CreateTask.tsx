@@ -8,7 +8,7 @@ import { selectLanes, createTask } from '../../../slices/kanbanSlice';
 import { generateNewUniqueId } from '../../../../../shared/utils/uuid';
 import Button from '../../../../../shared/components/Button';
 import Dropdown from '../../../../../shared/components/Dropdown';
-import { useMemo } from 'react';
+import { KeyboardEvent, useCallback, useMemo } from 'react';
 import { DropdownOption } from '../../../../../shared/components/Dropdown/Dropdown';
 
 type Props = {
@@ -61,6 +61,12 @@ function CreateTask({ onClose }: Props) {
     [lanes],
   );
 
+  const handleKeyDown = useCallback((event: KeyboardEvent<HTMLInputElement>) => {
+    if(event.key === 'Enter') {
+      event.preventDefault();
+    }
+  }, []);
+
   const onSubmit = () => {
     const formData = getValues();
     const validationResult = validationSchema.safeParse(formData);
@@ -96,6 +102,7 @@ function CreateTask({ onClose }: Props) {
             type="text"
             placeholder="Next epic To-Do"
             {...register('taskName')}
+            onKeyDown={handleKeyDown}
           />
           {Boolean(errors.taskName) && <p className="mt-2 text-sm text-[#E02020]">{errors.taskName?.message}</p>}
         </div>

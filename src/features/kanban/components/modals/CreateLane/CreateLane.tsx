@@ -7,6 +7,7 @@ import { TaskLaneData } from '../../../types/Task';
 import { createLane } from '../../../slices/kanbanSlice';
 import { generateNewUniqueId } from '../../../../../shared/utils/uuid';
 import Button from '../../../../../shared/components/Button/Button';
+import { useCallback, KeyboardEvent } from 'react';
 
 type Props = {
   onClose: () => void;
@@ -43,6 +44,12 @@ function CreateLane({ onClose }: Props) {
     }
   };
 
+  const handleKeyDown = useCallback((event: KeyboardEvent<HTMLInputElement>) => {
+    if(event.key === 'Enter') {
+      event.preventDefault();
+    }
+  }, []);
+
   return (
     <Modal title="Create new lane" onClose={onClose}>
       <form className="flex flex-col gap-4">
@@ -56,6 +63,7 @@ function CreateLane({ onClose }: Props) {
             type="text"
             placeholder="What's next?"
             {...register('laneName')}
+            onKeyDown={handleKeyDown}
           />
           {Boolean(errors.laneName) && <p className="mt-2 text-sm text-[#E02020]">{errors.laneName?.message}</p>}
         </div>
