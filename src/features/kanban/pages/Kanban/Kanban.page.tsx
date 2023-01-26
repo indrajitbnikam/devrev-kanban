@@ -1,10 +1,10 @@
-import Button from '../../components/Button';
+import Button from '../../../../shared/components/Button';
 import NewLanePlaceholder from '../../components/lanes/NewLanePlaceholder';
 import TaskLane from '../../components/lanes/TaskLane';
 import CreateTask from '../../components/modals/CreateTask';
 import { useCallback, useState } from 'react';
-import { useAppDispatch, useAppSelector } from '../../redux/hooks';
-import { deleteLane, deleteTask, moveTask, selectLanes } from './kanbanSlice';
+import { useAppDispatch, useAppSelector } from '../../../../redux/hooks';
+import { deleteLane, deleteTask, moveTask, selectLanes } from '../../slices/kanbanSlice';
 import { DragDropContext, OnDragEndResponder } from '@hello-pangea/dnd';
 
 function KanbanPage() {
@@ -39,7 +39,7 @@ function KanbanPage() {
   }, []);
 
   const onDragEnd: OnDragEndResponder = useCallback(
-    (result, provided) => {
+    (result) => {
       const { destination, source, draggableId } = result;
 
       if (!destination) {
@@ -54,7 +54,6 @@ function KanbanPage() {
         moveTask({
           sourceLaneId: source.droppableId,
           destinationLaneId: destination.droppableId,
-          taskId: draggableId,
           sourceIndex: source.index,
           destinationIndex: destination.index,
         }),
@@ -65,13 +64,13 @@ function KanbanPage() {
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
-      <div className="w-full flex flex-col flex-1 basis-auto gap-6 overflow-hidden">
+      <div className="w-full flex flex-col flex-1 basis-auto gap-6">
         {lanes.length > 0 && (
           <div className="flex px-10 justify-end">
             <Button name="New Task" onClick={handleOpenCreateModal} />
           </div>
         )}
-        <div className="flex flex-1 px-10 gap-4 overflow-x-auto">
+        <div className="flex flex-1 px-10 gap-4 overflow-x-auto overflow-y-hidden">
           {lanes.map((lane) => (
             <TaskLane key={lane.id} data={lane} onLaneDelete={handleLaneDelete} onTaskDelete={handleTaskDelete} />
           ))}

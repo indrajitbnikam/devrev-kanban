@@ -22,7 +22,7 @@ function TaskCard({ data: { id, name, type }, index, onDelete }: Props) {
           {...provided.draggableProps}
           {...provided.dragHandleProps}
           ref={provided.innerRef}
-          className={`bg-white shadow p-8 flex flex-col rounded-[14px] gap-4 max-w-full group ${
+          className={`bg-white overflow-[inherit] shadow p-8 flex flex-col rounded-[14px] gap-4 max-w-full group ${
             snapshot.isDragging ? 'ring-2' : ''
           }`}
         >

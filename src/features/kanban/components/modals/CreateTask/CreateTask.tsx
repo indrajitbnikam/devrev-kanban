@@ -1,15 +1,15 @@
 import { Controller, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
-import Modal from '../Modal';
+import { useAppDispatch, useAppSelector } from '../../../../../redux/hooks';
+import Modal from '../../../../../shared/components/Modal';
 import { TaskCardData, TaskType } from '../../../types/Task';
-import { selectLanes, createTask } from '../../../pages/Kanban/kanbanSlice';
-import { generateNewUniqueId } from '../../../utils/uuid';
-import Button from '../../Button/Button';
-import Dropdown from '../../Dropdown';
+import { selectLanes, createTask } from '../../../slices/kanbanSlice';
+import { generateNewUniqueId } from '../../../../../shared/utils/uuid';
+import Button from '../../../../../shared/components/Button';
+import Dropdown from '../../../../../shared/components/Dropdown';
 import { useMemo } from 'react';
-import { DropdownOption } from '../../Dropdown/Dropdown';
+import { DropdownOption } from '../../../../../shared/components/Dropdown/Dropdown';
 
 type Props = {
   onClose: () => void;
@@ -31,7 +31,7 @@ const typeOptions: DropdownOption[] = [
 ];
 
 const validationSchema = z.object({
-  name: z.string().min(1, { message: 'Task name is required!' }),
+  taskName: z.string().min(1, { message: 'Task name is required!' }),
   type: z.enum(['REQUEST', 'BUG', 'FEATURE']),
   laneId: z.string().uuid(),
 });
@@ -46,6 +46,7 @@ function CreateTask({ onClose }: Props) {
     register,
     getValues,
     control,
+    setError,
     formState: { errors },
   } = useForm<ValidationSchema>({
     resolver: zodResolver(validationSchema),
@@ -62,10 +63,11 @@ function CreateTask({ onClose }: Props) {
 
   const onSubmit = () => {
     const formData = getValues();
-    if (validationSchema.safeParse(formData).success) {
+    const validationResult = validationSchema.safeParse(formData);
+    if (validationResult.success) {
       const newTask: TaskCardData = {
         id: generateNewUniqueId(),
-        name: formData.name,
+        name: formData.taskName,
         type: formData.type,
       };
       dispatch(
@@ -75,6 +77,9 @@ function CreateTask({ onClose }: Props) {
         }),
       );
       onClose();
+    } else {
+      // Need to set it manually due to some weird reason that won't update error object automatically on validation
+      setError('taskName', { message: 'Task name is required!' }, { shouldFocus: true });
     }
   };
 
@@ -82,19 +87,17 @@ function CreateTask({ onClose }: Props) {
     <Modal title="Create new task" onClose={onClose}>
       <form className="flex flex-col gap-4">
         <div className="flex flex-col">
-          <label htmlFor="name" className="block mb-2 text-base font-medium">
+          <label htmlFor="taskName" className="block mb-2 text-base font-medium">
             Name
           </label>
           <input
-            className="bg-gray-50 border border-gray-300 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            id="name"
+            className="bg-gray-50 border border-gray-300 text-base rounded-lg  block w-full p-2.5 "
+            id="taskName"
             type="text"
             placeholder="Next epic To-Do"
-            {...register('name')}
+            {...register('taskName')}
           />
-          {Boolean(errors.name) && (
-            <p className="mt-2 text-sm text-red-600 dark:text-red-500">{errors.name?.message}</p>
-          )}
+          {Boolean(errors.taskName) && <p className="mt-2 text-sm text-[#E02020]">{errors.taskName?.message}</p>}
         </div>
         <div className="flex flex-col">
           <label htmlFor="type" className="block mb-2 text-base font-medium">
@@ -108,7 +111,7 @@ function CreateTask({ onClose }: Props) {
           />
         </div>
         <div className="flex flex-col">
-          <label htmlFor="lane" className="block mb-2 text-base font-medium">
+          <label htmlFor="laneId" className="block mb-2 text-base font-medium">
             Lane
           </label>
           <Controller

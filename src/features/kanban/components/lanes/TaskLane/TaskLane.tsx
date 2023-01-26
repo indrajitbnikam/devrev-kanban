@@ -44,7 +44,7 @@ function TaskLane({ data: { id, name, cards }, onLaneDelete, onTaskDelete }: Pro
           <div
             ref={provided.innerRef}
             {...provided.droppableProps}
-            className={`flex flex-col gap-4 py-2 rounded-lg min-h-min overflow-y-auto ${
+            className={`flex flex-col gap-4 py-2 rounded-lg min-h-min ${
               snapshot.isDraggingOver ? 'ring-1 ring-gray-300' : ''
             }`}
           >

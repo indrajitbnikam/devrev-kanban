@@ -1,4 +1,3 @@
-import React from 'react';
 import { TaskType } from '../../types/Task';
 
 type Props = {

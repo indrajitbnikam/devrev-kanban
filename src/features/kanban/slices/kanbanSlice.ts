@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import type { RootState } from '../../redux/store';
-import { TaskCardData, TaskLaneData } from '../../types/Task';
+import type { RootState } from '../../../redux/store';
+import { TaskCardData, TaskLaneData } from '../types/Task';
 
 type KanbanState = {
   lanes: TaskLaneData[];
@@ -35,12 +35,11 @@ export const kanbanSlice = createSlice({
       action: PayloadAction<{
         sourceLaneId: string;
         destinationLaneId: string;
-        taskId: string;
         sourceIndex: number;
         destinationIndex: number;
       }>,
     ) => {
-      const { sourceLaneId, sourceIndex, destinationLaneId, destinationIndex, taskId } = action.payload;
+      const { sourceLaneId, sourceIndex, destinationLaneId, destinationIndex } = action.payload;
 
       const sourceLane = state.lanes.find((lane) => lane.id === sourceLaneId) as TaskLaneData;
 
