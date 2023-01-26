@@ -1,4 +1,4 @@
-import { TaskCardData } from '../../types/Task';
+import { TaskCardData } from '../../../types/Task';
 import TaskTypeChip from '../TaskTypeChip';
 import { Draggable } from '@hello-pangea/dnd';
 import { XMarkIcon } from '@heroicons/react/24/solid';

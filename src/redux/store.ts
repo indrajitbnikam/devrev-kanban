@@ -1,8 +1,8 @@
-import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
+import { configureStore } from '@reduxjs/toolkit';
 import storage from 'redux-persist/lib/storage';
 import { FLUSH, PAUSE, PERSIST, PersistConfig, persistReducer, PURGE, REGISTER, REHYDRATE } from 'redux-persist';
 import { combineReducers } from '@reduxjs/toolkit';
-import kanbanSlice from '../pages/Kanban/kanbanSlice';
+import kanbanSlice from '../features/kanban/slices/kanbanSlice';
 
 const persistConfig: PersistConfig<any> = {
   key: 'root',

@@ -1,10 +1,10 @@
-import Button from '../../components/Button';
+import Button from '../../../../shared/components/Button';
 import NewLanePlaceholder from '../../components/lanes/NewLanePlaceholder';
 import TaskLane from '../../components/lanes/TaskLane';
 import CreateTask from '../../components/modals/CreateTask';
 import { useCallback, useState } from 'react';
-import { useAppDispatch, useAppSelector } from '../../redux/hooks';
-import { deleteLane, deleteTask, moveTask, selectLanes } from './kanbanSlice';
+import { useAppDispatch, useAppSelector } from '../../../../redux/hooks';
+import { deleteLane, deleteTask, moveTask, selectLanes } from '../../slices/kanbanSlice';
 import { DragDropContext, OnDragEndResponder } from '@hello-pangea/dnd';
 
 function KanbanPage() {
@@ -39,7 +39,7 @@ function KanbanPage() {
   }, []);
 
   const onDragEnd: OnDragEndResponder = useCallback(
-    (result, provided) => {
+    (result) => {
       const { destination, source, draggableId } = result;
 
       if (!destination) {
@@ -54,7 +54,6 @@ function KanbanPage() {
         moveTask({
           sourceLaneId: source.droppableId,
           destinationLaneId: destination.droppableId,
-          taskId: draggableId,
           sourceIndex: source.index,
           destinationIndex: destination.index,
         }),
