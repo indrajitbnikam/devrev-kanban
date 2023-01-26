@@ -74,6 +74,7 @@ function CreateTask({ onClose }: Props) {
           taskData: newTask,
         }),
       );
+      onClose();
     }
   };
 
