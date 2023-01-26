@@ -68,7 +68,8 @@ You can check the project live [here.](https://devrev-kanban.vercel.app/) 🚀
 
 I only performed sanity check on this project.
 
-Unfortunately, I could not add any tests as it took more than 2 days for me complete this whole project. Which is already a lot for assignment project and my current priorities.
+Unfortunately, I could not add any tests as it took more than 2 days for me complete this whole project. Which is already a lot for assignment project and considering my current priorities.
+
 ## 🚀 About Me
 You can find about me here,
 
