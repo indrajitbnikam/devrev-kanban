@@ -3,6 +3,7 @@
 
 This is an assignment project where the end goal is to create the kanban board.
 
+https://user-images.githubusercontent.com/24988127/214855727-d24b9dda-45e2-4eb2-b84e-149abf6f846a.mov
 
 ## Run Locally
 
